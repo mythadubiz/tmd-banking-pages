@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>TMD Banking — Autorisation reçue</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 3rem auto; padding: 0 1rem; line-height: 1.6; text-align: center;">
+<h1>Autorisation reçue</h1>
+<p>Copie ce code et colle-le dans le script Python quand il te le demande :</p>
+<textarea id="code" readonly style="width: 100%; height: 4rem; font-size: 1.1rem; font-family: monospace; padding: 0.5rem; box-sizing: border-box;"></textarea>
+<p><button onclick="copyCode()" style="font-size: 1rem; padding: 0.5rem 1rem; cursor: pointer;">Copier</button></p>
+<p id="status" style="color: #666;"></p>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const error = params.get('error');
+const codeEl = document.getElementById('code');
+const statusEl = document.getElementById('status');
+if (code) {
+  codeEl.value = code;
+} else if (error) {
+  codeEl.value = '';
+  statusEl.textContent = 'Erreur renvoyée par la banque : ' + error + (params.get('error_description') ? ' — ' + params.get('error_description') : '');
+} else {
+  statusEl.textContent = "Aucun code trouvé dans l'URL.";
+}
+function copyCode() {
+  codeEl.select();
+  document.execCommand('copy');
+  statusEl.textContent = 'Copié.';
+}
+</script>
+</body>
+</html>
